@@ -1,17 +1,25 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" style="position: relative">
+    <video-list/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from 'axios';
+import VideoList from "@/components/VideoList";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    VideoList,
+
+  },
+  mounted() {
+    this.$vuetify.theme.dark = true
+  },
+  methods : {
+    test(){
+      axios.get('http://localhost:5000/video').then(response => {console.log(response)})
+    }
   }
 }
 </script>
