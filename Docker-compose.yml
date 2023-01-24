@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
   api:
     build: 
-      context: ./rn_tubeapi
+      context: "./rn_tubeapi"
       # dockerfile: ./Dockerfile
       args:
         http_proxy: $HTTP_PROXY
