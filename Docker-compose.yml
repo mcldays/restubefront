@@ -27,7 +27,7 @@ services:
   api:
     build: 
       context: ./rn_tubeapi
-      dockerfile: .
+      # dockerfile: ./Dockerfile
       args:
         http_proxy: $HTTP_PROXY
         https_proxy: $HTTPS_PROXY
