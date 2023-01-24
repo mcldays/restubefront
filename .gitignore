@@ -1,7 +1,11 @@
 .DS_Store
 node_modules
 /dist
-
+/db/*
+!/db/.gitkeep
+/videos/*
+!/videos/.gitkeep
+/rn_tubeapi
 
 # local env files
 .env.local

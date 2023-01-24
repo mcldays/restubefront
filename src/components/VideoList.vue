@@ -52,7 +52,7 @@
       >
         <v-list-item
             link
-            @click="toggleTheme"
+            @click="refresh"
         >
           <v-list-item-icon>
             <v-icon>mdi-view-dashboard</v-icon>
@@ -121,9 +121,9 @@
                         </p>
 
                         <div>
-                          <p class="ma-0 text-body-1 font-weight-bold font-italic text-left">
+                          <!--p class="ma-0 text-body-1 font-weight-bold font-italic text-left">
                             {{ item.Link }}
-                          </p>
+                          </p-->
                           <p class="text-caption font-weight-medium font-italic text-left">
                             {{ item.subtext }}
                           </p>

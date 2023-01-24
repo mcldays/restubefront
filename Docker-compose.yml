@@ -1,0 +1,41 @@
+version: "3"
+services:
+  web:
+    build: 
+      context: .
+      args:
+        http_proxy: $HTTP_PROXY
+        https_proxy: $HTTPS_PROXY
+    ports:
+      - "81:81/tcp"
+    environment:
+      http_proxy: ""
+      https_proxy: ""
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+  db:
+    image: mongo:6
+    container_name: rn_tube_db
+    environment:
+      MONGO_INITDB_DATABASE: restube_test
+      MONGO_INITDB_PORT: 27017
+    volumes:
+      - ./db:/data/db:z
+    restart: unless-stopped
+  api:
+    build: 
+      context: ./rn_tubeapi
+      dockerfile: .
+      args:
+        http_proxy: $HTTP_PROXY
+        https_proxy: $HTTPS_PROXY
+    expose:
+      - "$API_PORT"
+    environment:
+      ASPNETCORE_URLS: "http://*:$API_PORT"
+      http_proxy: ""
+      https_proxy: ""
+    volumes:
+      - ./videos:/app/videos:Z

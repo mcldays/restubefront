@@ -9,8 +9,8 @@
               <v-container>
                 <v-text-field v-model="name" label="Название видео"></v-text-field>
                 <div style="display: flex">
-                  <v-file-input @change="onFilePicked" label="Превью"/>
-                  <v-file-input @change="onFilePicked" :loading="loadingFile" label="Файл"></v-file-input>
+                  <v-file-input @change="onPreviewPicked" label="Превью"/>
+                  <v-file-input @change="onVideoPicked" :loading="loadingFile" label="Файл"></v-file-input>
                 </div>
               </v-container>
             </v-card-text>
@@ -47,6 +47,10 @@ export default {
         formData : FormData,
         filesData : [],
         fileName : [],
+        fileVideo : null,
+        filePreview : null,
+        nameVideo : "",
+        namePreview : "",
         name : "",
         preload : false,
         loadingFile : false,
@@ -60,6 +64,12 @@ export default {
     },
     async upload(){
       const formData = new FormData()
+      if (this.filePreview !== null) {
+        this.filesData.push(this.filePreview)
+        this.fileName.push(this.namePreview)
+      }
+      this.filesData.push(this.fileVideo)
+      this.fileName.push(this.nameVideo)
       for (let i = 0; i < this.filesData.length; i++) {
         formData.append(this.fileName[i], this.filesData[i])
       }
@@ -72,17 +82,28 @@ export default {
          this.$emit("success")
        })
     },
-    onFilePicked(e){
+    onPreviewPicked(e){
       let reader = new FileReader();
       this.loadingFile = true
       reader.readAsArrayBuffer(e)
-      this.fileName.push(e.name)
+      this.namePreview = e.name
 
-      reader.addEventListener('load', this.success)
+      reader.addEventListener('load', this.previewsuccess)
     },
-    success(resultBlob){
-      let fileData = new Blob([new Uint8Array(resultBlob.target.result)])
-      this.filesData.push(fileData)
+    previewsuccess(resultBlob){
+      this.filePreview = new Blob([new Uint8Array(resultBlob.target.result)])
+      this.loadingFile = false
+    },
+    onVideoPicked(e){
+      let reader = new FileReader();
+      this.loadingFile = true
+      reader.readAsArrayBuffer(e)
+      this.nameVideo = e.name
+
+      reader.addEventListener('load', this.videosuccess)
+    },
+    videosuccess(resultBlob){
+      this.fileVideo = new Blob([new Uint8Array(resultBlob.target.result)])
       this.loadingFile = false
     },
   }
