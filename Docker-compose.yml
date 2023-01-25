@@ -7,8 +7,8 @@ services:
       MONGO_INITDB_DATABASE: restube_test
       MONGO_INITDB_PORT: 27017
     volumes:
-      - ./db:/data/db:z
-    #restart: unless-stopped
+      - mongodata:/data/db:z
+    restart: unless-stopped
   rntube-api:
     container_name: rn_tube_api
     build: 
@@ -33,7 +33,7 @@ services:
         http_proxy: $HTTP_PROXY
         https_proxy: $HTTPS_PROXY
     ports:
-      - "81:81/tcp"
+      - "81:80/tcp"
     environment:
       http_proxy: ""
       https_proxy: ""
@@ -41,3 +41,11 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - rntube-api
+
+volumes:
+  mongodata:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './db'
