@@ -9,6 +9,8 @@ services:
     volumes:
       - mongodata:/data/db:z
     restart: unless-stopped
+    ports:
+      - "27017:27017/tcp"
   rntube-api:
     container_name: rn_tube_api
     build: 
